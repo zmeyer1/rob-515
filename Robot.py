@@ -17,17 +17,16 @@ class Robot():
 
     def execute_action(self, gesture):
         gesture, side = gesture.split("_")
-        match(gesture):
-            case "front":
-                self.react_front(side)
-            case "back":
-                self.react_back(side)
-            case "fist":
-                self.react_fist(side)
-            case "gun":
-                self.react_gun(side)
-            case _:
-                print("Unrecognized gesture!")
+        if(gesture == "front"):
+            self.react_front(side)
+        elif(gesture == "back"):
+            self.react_back(side)
+        elif(gesture == "fist"):
+            self.react_fist(side)
+        elif(gesture == "gun"):
+            self.react_gun(side)
+        else:
+            print("Unrecognized gesture!")
 
     def react_front(self, side):
         print(f"Called react_front: side={side}")
