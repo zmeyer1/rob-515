@@ -40,3 +40,6 @@ class Robot():
 
     def react_gun(self, side):
         print(f"Called react_fist: side={side}")
+
+if(__name__ == "__main__"):
+    robot = Robot()
