@@ -27,12 +27,10 @@ class Robot():
             data = connection.recv(64).decode()
             cmd = json.loads(data)
             if len(cmd) > 0:
-            
                 stack.append(cmd)
-
             if len(stack)!= 0:
                 cur_cmd = stack.pop()
-                execute_action = cur_cmd
+                self.execute_action(cur_cmd)
             connection.close()
 
     def execute_action(self, gesture):
