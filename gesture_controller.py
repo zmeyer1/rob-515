@@ -9,9 +9,9 @@ if __name__ == "__main__":
     cap = cv2.VideoCapture(0)
 
     classifier = HandClassifier("hand_signs.pickle")
-    start = (None, None)
-    old_label = (None, None)
-    last_sent = (None, None)
+    start = [None, None]
+    old_label = [None, None]
+    last_sent = [None, None]
 
     ips = ('10.214.159.125', '10.214.159.122')
     clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
