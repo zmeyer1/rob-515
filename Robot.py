@@ -28,9 +28,10 @@ class Robot():
             cmd = json.loads(data)
             if len(cmd) > 0:
                 stack.append(cmd)
-            if len(stack)!= 0:
-                cur_cmd = stack.pop()
-                self.execute_action(cur_cmd)
+            if AGC.stopRunning == True:
+                if len(stack)!= 0:
+                    cur_cmd = stack.pop()
+                    self.execute_action(cur_cmd)
             connection.close()
 
     def execute_action(self, gesture):
