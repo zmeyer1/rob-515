@@ -20,18 +20,20 @@ class Robot():
         elif self.dir == "left": # LorrettaLynn
             serversocket.bind(("10.214.159.122", 8089))
         serversocket.listen(5) # become a server socket, maximum 5 connection
+        
+        stack = deque()
 
         while True:
             connection, address = serversocket.accept()
-            stack = deque()
             data = connection.recv(64).decode()
             cmd = json.loads(data)
             if len(cmd) > 0:
                 stack.append(cmd)
-            if AGC.stopRunning == True:
-                if len(stack)!= 0:
-                    cur_cmd = stack.pop()
-                    self.execute_action(cur_cmd)
+
+
+            if len(stack)!= 0:
+                cur_cmd = stack.pop()
+                self.execute_action(cur_cmd)
             connection.close()
 
     def execute_action(self, gesture):
