@@ -2,7 +2,7 @@ import socket
 import sys
 
 
-sys.path.append('./home/pi/ArmPi/HisonderSDK/')
+sys.path.append('/home/pi/ArmPi/HiwonderSDK/')
 
 import ActionGroupControl as AGC
 
