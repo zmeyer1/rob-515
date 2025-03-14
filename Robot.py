@@ -2,6 +2,7 @@ import socket
 import sys
 import time
 import json
+from collections import deque
 
 sys.path.append('/home/pi/ArmPi/HiwonderSDK/')
 
@@ -22,24 +23,16 @@ class Robot():
 
         while True:
             connection, address = serversocket.accept()
-            # get the data from the connection
-            buffer_clear = False
-            data = ""
-            # loop through all buffer values until there are none to read from
-            while(not buffer_clear):
-                recent_message = connection.recv(64).decode()
-                if(len(recent_message) > 0):
-                    print(f"Updating data from! Prev data: {data}")
-                    data = recent_message
-                else:
-                    print("Buffer is clear!")
-                    buffer_clear = True
-                print(f"Sending data: {data}")
-            # execute action is data is a gesture
-            if(len(data) > 0):
-                data = data.strip('"')
-                self.execute_action(data)
-            # close the connection
+            stack = deque()
+            data = connection.recv(64).decode()
+            cmd = json.loads(data)
+            if len(cmd) > 0:
+            
+                deque.append(cmd)
+
+            if len(stack)!= 0:
+                cur_cmd = stack.pop()
+                execute_action = cur_cmd
             connection.close()
 
     def execute_action(self, gesture):
