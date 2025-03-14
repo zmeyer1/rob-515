@@ -47,5 +47,5 @@ class Robot():
 if(__name__ == "__main__"):
     try:
         robot = Robot(sys.argv[1])
-    except:
+    except IndexError:
         print(f"Usage: {sys.argv[0]} left/right")
