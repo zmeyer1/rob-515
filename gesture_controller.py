@@ -38,7 +38,8 @@ if __name__ == "__main__":
             old_label[i] = label
 
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(frame, f"{label} ({np.round(np.mean(dists),2)})", (50, 50), font, 1, (255, 0, 0), 2, cv2.LINE_AA)
+        cv2.putText(frame, f"{labels[0]} ({np.round(dists[0],2)})", (50, 50), font, 1, (0, 0, 255), 2, cv2.LINE_AA)
+        cv2.putText(frame, f"{labels[1]} ({np.round(dists[1],2)})", (frame.shape[1] - 50, 50), font, 1, (50, 255, 0), 2, cv2.LINE_AA)
 
         cv2.imshow('window', frame)
 
