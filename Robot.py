@@ -17,13 +17,11 @@ class Robot():
             serversocket.bind(('10.214.159.125', 8089))
         elif self.dir == "left": # LorrettaLynn
             serversocket.bind(("10.214.159.122", 8089))
-        serversocket.listen(5) # become a server socket, maximum 5 connections
-        print(self.dir)
+        serversocket.listen(5) # become a server socket, maximum 5 connection
 
         while True:
             connection, address = serversocket.accept()
             buf = connection.recv(64).decode()
-            print(buf)
             if(len(buf) > 0):
                 self.execute_action(buf)
             connection.close()
