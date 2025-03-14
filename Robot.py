@@ -48,7 +48,7 @@ class Robot():
 
     def execute_latest_gesture(self):
         while(True):
-            if(self.latest_gesture == self.current_gesture):
+            if(self.latest_gesture != self.current_gesture):
                 self.current_gesture = self.latest_gesture
                 self.execute_action(self.latest_gesture)
             time.sleep(0.01)
@@ -69,7 +69,7 @@ class Robot():
         elif(gesture == "gun"):
             self.react_gun()
         else:
-            print("Unrecognized gesture!")
+            print(f"Unrecognized gesture! {gesture}")
 
     def react_front(self):
         AGC.runAction("hand turn "+ self.dir)
