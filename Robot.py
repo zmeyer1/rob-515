@@ -23,7 +23,7 @@ class Robot():
         while True:
             connection, address = serversocket.accept()
             # get the data from the connection
-            data = connection.recv().decode()
+            data = connection.recv(64).decode()
             cmd = json.loads(data)
             print(f"Got data: {cmd}")
             if(len(data) > 0):
