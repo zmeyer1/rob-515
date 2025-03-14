@@ -19,6 +19,7 @@ class Robot():
             buf = connection.recv(64).decode()
             if(len(buf) > 0):
                 self.execute_action(buf)
+            connection.close()
 
     def execute_action(self, gesture):
         if(gesture == "front"):
