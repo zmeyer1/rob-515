@@ -34,7 +34,7 @@ if __name__ == "__main__":
                         data = json.dumps(label)
                         clientsocket.send(data.encode())
                         clientsocket.close()
-                        start = None
+                        start[i] = None
                     last_sent[i] = label
 
             old_label[i] = label
