@@ -33,6 +33,7 @@ hand_segments = [
     (17,18), # pinky 1
     (18,19), # pinky 2
     (19,20), # pinky 3
+    (1,13), # palm span
 ]
 
 class HandDetector:
@@ -72,7 +73,7 @@ HANDEDNESS_TEXT_COLOR = (88, 205, 54) # vibrant green display color
 def draw_landmarks_on_image(rgb_image, detection_result):
   hand_landmarks_list = detection_result.hand_landmarks
   handedness_list = detection_result.handedness
-  annotated_image = np.copy(rgb_image)
+  annotated_image = rgb_image
 
   # Loop through the detected hands to visualize.
   for idx in range(len(hand_landmarks_list)):

@@ -15,7 +15,7 @@ def create_dataset(folder_path):
             hands = detector.detect(im)
             if len(hands.hand_landmarks) == 0:
                 continue
-            angles = detect_hand.generate_angle_vector(hands.hand_landmarks[0])
+            angles = detect_hand.generate_angle_vector(hands.hand_landmarks[0]) # dataset has only since hand images
             all_angles.append(angles)
             all_labels.append(os.path.split(folder_path)[-1])
         elif os.path.isdir(os.path.join(folder_path,file)):

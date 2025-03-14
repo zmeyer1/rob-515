@@ -43,7 +43,7 @@ class HandClassifier:
 
     def __init__(self, data_file):
         
-        self.detector = detect_hand.HandDetector(num_hands=1)
+        self.detector = detect_hand.HandDetector(num_hands=2)
 
         # read in data and labels from file
         with open(data_file, 'rb') as file:
@@ -73,23 +73,38 @@ class HandClassifier:
 
         return explained_variance
 
-    def classify(self, im, is_bgr=True):
-        """Takes in an image, find the hand, converts to angle space, 
-        then generates an embedding in that angle space and returns a label.
+    def classify(self, im, is_bgr=True, display=False):
+        """Takes in an image, finds two hands, converts to angle space, 
+        then generates an embedding in that angle space and returns a pair of labels.
         That label is based on the k closest training data points given to the class.
         """
+        labels = ["None", "None"]
+        mean_distances = [np.inf, np.inf]
+        hand_index = {"left": 0, "right": 1}
+
         hands_found = self.detector.detect(im, is_bgr)
         if len(hands_found.hand_landmarks) == 0:
-            return "None"
-        angle_vec = detect_hand.generate_angle_vector(hands_found.hand_landmarks[0])
-        embedding = self.pca.transform(self.scaler.transform(angle_vec.reshape(1, -1)))
-        return self.get_label(embedding)[0]
+            return labels, mean_distances
+        for i,hand in enumerate(hands_found.hand_landmarks):
+            handedness = hands_found.handedness[i][0].category_name.lower()
+            angle_vec = detect_hand.generate_angle_vector(hand)
+            embedding = self.pca.transform(self.scaler.transform(angle_vec.reshape(1, -1)))
+            label, dists = self.get_label(embedding)
+            labels[hand_index[handedness]] = label
+            mean_distances[hand_index[handedness]] = np.mean(dists)
+        
+        # handedness = hands_found.handedness[0][0].category_name.lower()
+        # embedding = self.pca.transform(self.scaler.transform(angle_vec.reshape(1, -1)))
+        # label, dists = self.get_label(embedding)
+        if display:
+            detect_hand.draw_landmarks_on_image(im, hands_found)
+        return labels, mean_distances
     
     def dist(self, a,b):
         # Exists as a member variable, in case descendants of this class want to change the distance function easily
         return np.sum(np.square(a-b))
 
-    def get_label(self, embedding, k = 3):
+    def get_label(self, embedding, k = 5):
         # uses KNN to find the label that the embedding corresponds to
         # Really CLUMSY IMPLEMENTATION
         rpq = ReversePriorityQueue()
@@ -110,7 +125,6 @@ class HandClassifier:
             if v > max_count:
                 max_count = v
                 label = k
-        
         return label, distances
 
 
@@ -155,10 +169,11 @@ if __name__ == "__main__":
     while cap.isOpened():
         ret, frame = cap.read()
 
-        label = classifier.classify(frame)
+        labels, dists = classifier.classify(frame, display=True)
 
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(frame, f"{label}", (50, 50), font, 1, (255, 0, 0), 2, cv2.LINE_AA)
+        cv2.putText(frame, f"{labels[0]} ({np.round(dists[0],2)})", (50, 50), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
+        cv2.putText(frame, f"{labels[1]} ({np.round(dists[1],2)})", (frame.shape[0] - 50, 50), font, 1, (0, 0, 255), 2, cv2.LINE_AA)
 
         cv2.imshow('window', frame)
         # reconstuct_skeleton(angles)

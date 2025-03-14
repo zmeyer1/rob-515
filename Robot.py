@@ -20,29 +20,28 @@ class Robot():
                 self.execute_action(buf)
 
     def execute_action(self, gesture):
-        gesture, side = gesture.split("_")
         if(gesture == "front"):
-            self.react_front(side)
+            self.react_front()
         elif(gesture == "back"):
-            self.react_back(side)
+            self.react_back()
         elif(gesture == "fist"):
-            self.react_fist(side)
+            self.react_fist()
         elif(gesture == "gun"):
-            self.react_gun(side)
+            self.react_gun()
         else:
             print("Unrecognized gesture!")
 
-    def react_front(self, side):
-        print(f"Called react_front: side={side}")
+    def react_front(self):
+        print(f"Called react_front: side={self.dir}")
 
-    def react_back(self, side):
-        print(f"Called react_back: side={side}")
+    def react_back(self):
+        print(f"Called react_back: side={self.dir}")
 
-    def react_fist(self, side):
-        print(f"Called react_fist: side={side}")
+    def react_fist(self):
+        print(f"Called react_fist: side={self.dir}")
 
-    def react_gun(self, side):
-        print(f"Called react_fist: side={side}")
+    def react_gun(self):
+        print(f"Called react_fist: side={self.dir}")
 
 if(__name__ == "__main__"):
     robot = Robot()
