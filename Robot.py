@@ -1,4 +1,5 @@
 import socket
+import sys
 
 class Robot():
     def __init__(self, dir):
@@ -44,4 +45,7 @@ class Robot():
         print(f"Called react_fist: side={self.dir}")
 
 if(__name__ == "__main__"):
-    robot = Robot()
+    try:
+        robot = Robot(sys.argv[1])
+    except:
+        print(f"Usage: {sys.argv[0]} left/right")
