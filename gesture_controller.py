@@ -14,7 +14,7 @@ if __name__ == "__main__":
     old_label = [None, None]
     last_sent = [None, None]
 
-    ips = ('10.214.159.125', '10.214.159.122')
+    ips = ('10.214.159.122', '10.214.159.125')
 
     clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
