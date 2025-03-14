@@ -28,7 +28,7 @@ class Robot():
             cmd = json.loads(data)
             if len(cmd) > 0:
             
-                deque.append(cmd)
+                stack.append(cmd)
 
             if len(stack)!= 0:
                 cur_cmd = stack.pop()
