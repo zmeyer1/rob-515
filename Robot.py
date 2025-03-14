@@ -37,6 +37,7 @@ class Robot():
                 print(f"Sending data: {data}")
             # execute action is data is a gesture
             if(len(data) > 0):
+                data = data.strip('"')
                 self.execute_action(data)
             # close the connection
             connection.close()
