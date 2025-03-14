@@ -19,16 +19,23 @@ class Robot():
             serversocket.bind(("10.214.159.122", 8089))
         serversocket.listen(5) # become a server socket, maximum 5 connection
 
+        data = ""
         while True:
             connection, address = serversocket.accept()
-            buf = connection.recv(64).decode()
-            if(len(buf) > 0):
-                self.execute_action(buf)
+            data += connection.recv().decode()
+            if(len(data) > 0):
+                if('~' not in data):
+                    continue
+                length, message = data.split('~')
+                if(int(length) == len(message)):
+                    self.execute_action(message)
+                    data = ""
             connection.close()
 
     def execute_action(self, gesture):
         # Wait to stop current action
         while(AGC.runningAction):
+            print(f"Waiting to cancel gesture to begin running {gesture} gesture")
             AGC.stopRunning = True
             time.sleep(0.01)
         # Call specific action to run

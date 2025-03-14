@@ -98,6 +98,7 @@ class HandClassifier:
         # label, dists = self.get_label(embedding)
         if display:
             detect_hand.draw_landmarks_on_image(im, hands_found)
+        print("labels", labels, flush=True)
         return labels, mean_distances
     
     def dist(self, a,b):

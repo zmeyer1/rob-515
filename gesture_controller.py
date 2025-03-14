@@ -5,7 +5,7 @@ from classify_hand import HandClassifier
 PERSISTENCE = 0.5
 
 if __name__ == "__main__":
-
+    print("first print")
     cap = cv2.VideoCapture(0)
 
     classifier = HandClassifier("hand_signs.pickle")
@@ -13,12 +13,12 @@ if __name__ == "__main__":
     old_label = [None, None]
     last_sent = [None, None]
 
-    ips = ('10.214.159.125', '10.214.159.122')
+    ips = ('10.214.159.122', '10.214.159.125')
+
     clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     while cap.isOpened():
         ret, frame = cap.read()
-
         labels, dists = classifier.classify(frame, display=True)
 
         for i, label in enumerate(labels):
