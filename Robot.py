@@ -1,12 +1,16 @@
 import socket
 
 class Robot():
-    def __init__(self):
+    def __init__(self, dir):
+        self.dir = dir
         self.start()
 
     def start(self):
         serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        serversocket.bind(('10.214.159.125', 8089))
+        if self.dir == "right": # ErnestTubb
+            serversocket.bind(('10.214.159.125', 8089))
+        elif self.dir == "left": # LorrettaLynn
+            serversocket.bind(("10.214.159.122", 8089))
         serversocket.listen(5) # become a server socket, maximum 5 connections
 
         while True:
