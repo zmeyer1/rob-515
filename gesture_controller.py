@@ -1,6 +1,7 @@
 import socket, cv2, time
 import numpy as np
 from classify_hand import HandClassifier
+import json
 
 PERSISTENCE = 0.5
 
@@ -30,7 +31,8 @@ if __name__ == "__main__":
                     # only send a consecutive label once
                     if label != last_sent[i]:
                         clientsocket.connect((ips[i], 8089))
-                        clientsocket.send(label.encode())
+                        data = json.dumps("message", label)
+                        clientsocket.send(data.encode())
                         clientsocket.close()
                         start = None
                     last_sent[i] = label

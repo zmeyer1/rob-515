@@ -1,6 +1,7 @@
 import socket
 import sys
 import time
+import json
 
 sys.path.append('/home/pi/ArmPi/HiwonderSDK/')
 
@@ -19,17 +20,17 @@ class Robot():
             serversocket.bind(("10.214.159.122", 8089))
         serversocket.listen(5) # become a server socket, maximum 5 connection
 
-        data = ""
-        while True:
+        try:
             connection, address = serversocket.accept()
-            data += connection.recv().decode()
-            if(len(data) > 0):
-                if('~' not in data):
-                    continue
-                length, message = data.split('~')
-                if(int(length) == len(message)):
-                    self.execute_action(message)
-                    data = ""
+            while True:
+                # get the data from the connection
+                data = connection.recv().decode()
+                cmd = json.loads(data)
+                print(f"Got data: {cmd}")
+                if(len(data) > 0):
+                    self.execute_action(cmd)
+                    
+        except:
             connection.close()
 
     def execute_action(self, gesture):
