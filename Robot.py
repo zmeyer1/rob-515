@@ -49,16 +49,18 @@ class Robot():
     def execute_latest_gesture(self):
         while(True):
             if(self.latest_gesture != self.current_gesture):
+                # Wait to stop current action
+                while(AGC.runningAction):
+                    print(f"Waiting to cancel gesture to begin running {self.current_gesture} gesture")
+                    AGC.stopRunning = True
+                    time.sleep(0.01)
                 self.current_gesture = self.latest_gesture
+                self.execute_action(self.latest_gesture)
+            else:
                 self.execute_action(self.latest_gesture)
             time.sleep(0.01)
 
     def execute_action(self, gesture):
-        # Wait to stop current action
-        while(AGC.runningAction):
-            print(f"Waiting to cancel gesture to begin running {gesture} gesture")
-            AGC.stopRunning = True
-            time.sleep(0.01)
         # Call specific action to run
         if(gesture == "front"):
             self.react_front()
