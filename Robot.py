@@ -1,6 +1,11 @@
 import socket
 import sys
 
+
+sys.path.append('./home/pi/ArmPi/HisonderSDK/')
+
+import ActionGroupControl as AGC
+
 class Robot():
     def __init__(self, dir):
         self.dir = dir
@@ -34,15 +39,19 @@ class Robot():
             print("Unrecognized gesture!")
 
     def react_front(self):
+        AGC.run("hand turn "+ self.dir + ".d6a")
         print(f"Called react_front: side={self.dir}")
 
     def react_back(self):
+        AGC.run(f"hand turn {self.dir}.d6a")
         print(f"Called react_back: side={self.dir}")
 
     def react_fist(self):
+        AGC.run(f"circle.d6a")
         print(f"Called react_fist: side={self.dir}")
 
     def react_gun(self):
+        AGC.run("dead.d6a")
         print(f"Called react_fist: side={self.dir}")
 
 if(__name__ == "__main__"):
