@@ -2,6 +2,7 @@ import socket
 import sys
 import time
 import json
+import threading
 
 sys.path.append('/home/pi/ArmPi/HiwonderSDK/')
 
@@ -10,6 +11,8 @@ import ActionGroupControl as AGC
 class Robot():
     def __init__(self, dir):
         self.dir = dir
+        self.latest_gesture = ""
+        self.current_gesture = ""
         self.start()
 
     def start(self):
@@ -20,27 +23,35 @@ class Robot():
             serversocket.bind(("10.214.159.122", 8089))
         serversocket.listen(5) # become a server socket, maximum 5 connection
 
+        t1 = threading.Thread(target=self.read_gesture, args=(serversocket,))
+        t2 = threading.Thread(target=self.execute_latest_gesture, args=())
+
+        t1.start()
+        t2.start()
+
+        t1.join()
+        t2.join()
+
+    
+    def read_gesture(self, serversocket):
         while True:
             connection, address = serversocket.accept()
-            # get the data from the connection
-            buffer_clear = False
-            data = ""
-            # loop through all buffer values until there are none to read from
-            while(not buffer_clear):
-                recent_message = connection.recv(64).decode()
-                if(len(recent_message) > 0):
-                    print(f"Updating data from! Prev data: {data}")
-                    data = recent_message
-                else:
-                    print("Buffer is clear!")
-                    buffer_clear = True
-                print(f"Sending data: {data}")
-            # execute action is data is a gesture
+            data = connection.recv(64).decode()
+            data = data.strip('"')
+            # save the gesture if it is larger than 0
             if(len(data) > 0):
-                data = data.strip('"')
-                self.execute_action(data)
+                self.latest_gesture = data
+                print(f"New Gesture: {self.latest_gesture}")
             # close the connection
             connection.close()
+
+
+    def execute_latest_gesture(self):
+        while(True):
+            if(self.latest_gesture == self.current_gesture):
+                self.current_gesture = self.latest_gesture
+                self.execute_action(self.latest_gesture)
+            time.sleep(0.01)
 
     def execute_action(self, gesture):
         # Wait to stop current action
