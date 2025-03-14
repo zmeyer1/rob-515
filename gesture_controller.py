@@ -31,7 +31,7 @@ if __name__ == "__main__":
                     # only send a consecutive label once
                     if label != last_sent[i]:
                         clientsocket.connect((ips[i], 8089))
-                        data = json.dumps("message", label)
+                        data = json.dumps(label)
                         clientsocket.send(data.encode())
                         clientsocket.close()
                         start = None

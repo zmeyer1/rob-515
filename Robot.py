@@ -20,17 +20,14 @@ class Robot():
             serversocket.bind(("10.214.159.122", 8089))
         serversocket.listen(5) # become a server socket, maximum 5 connection
 
-        try:
+        while True:
             connection, address = serversocket.accept()
-            while True:
-                # get the data from the connection
-                data = connection.recv().decode()
-                cmd = json.loads(data)
-                print(f"Got data: {cmd}")
-                if(len(data) > 0):
-                    self.execute_action(cmd)
-                    
-        except:
+            # get the data from the connection
+            data = connection.recv().decode()
+            cmd = json.loads(data)
+            print(f"Got data: {cmd}")
+            if(len(data) > 0):
+                self.execute_action(cmd)
             connection.close()
 
     def execute_action(self, gesture):
