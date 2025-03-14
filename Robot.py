@@ -23,11 +23,22 @@ class Robot():
         while True:
             connection, address = serversocket.accept()
             # get the data from the connection
-            data = connection.recv(64).decode()
-            cmd = json.loads(data)
-            print(f"Got data: {cmd}")
+            buffer_clear = False
+            data = ""
+            # loop through all buffer values until there are none to read from
+            while(not buffer_clear):
+                recent_message = connection.recv(64).decode()
+                if(len(recent_message) > 0):
+                    print(f"Updating data from! Prev data: {data}")
+                    data = recent_message
+                else:
+                    print("Buffer is clear!")
+                    buffer_clear = True
+                print(f"Sending data: {data}")
+            # execute action is data is a gesture
             if(len(data) > 0):
-                self.execute_action(cmd)
+                self.execute_action(data)
+            # close the connection
             connection.close()
 
     def execute_action(self, gesture):
