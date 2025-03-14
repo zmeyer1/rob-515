@@ -1,6 +1,6 @@
 import socket
 import sys
-
+import time
 
 sys.path.append('/home/pi/ArmPi/HiwonderSDK/')
 
@@ -27,6 +27,11 @@ class Robot():
             connection.close()
 
     def execute_action(self, gesture):
+        # Wait to stop current action
+        while(AGC.runningAction):
+            AGC.stopRunning = True
+            time.sleep(0.01)
+        # Call specific action to run
         if(gesture == "front"):
             self.react_front()
         elif(gesture == "back"):
