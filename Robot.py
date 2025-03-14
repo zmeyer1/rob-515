@@ -39,19 +39,19 @@ class Robot():
             print("Unrecognized gesture!")
 
     def react_front(self):
-        AGC.runAction("hand turn "+ self.dir + ".d6a")
+        AGC.runAction("hand turn "+ self.dir)
         print(f"Called react_front: side={self.dir}")
 
     def react_back(self):
-        AGC.runAction(f"hand turn {self.dir}.d6a")
+        AGC.runAction(f"hand turn {self.dir}")
         print(f"Called react_back: side={self.dir}")
 
     def react_fist(self):
-        AGC.runAction(f"circle.d6a")
+        AGC.runAction(f"circle")
         print(f"Called react_fist: side={self.dir}")
 
     def react_gun(self):
-        AGC.runAction("dead.d6a")
+        AGC.runAction("dead")
         print(f"Called react_fist: side={self.dir}")
 
 if(__name__ == "__main__"):
