@@ -80,11 +80,13 @@ class Robot():
         print(f"Called None")
 
     def react_front(self):
-        AGC.runAction("hand turn "+ self.dir)
+        # AGC.runAction(f"hand turn {self.dir}")
+        AGC.runAction(f"hand front {self.dir}")
         print(f"Called react_front: side={self.dir}")
 
     def react_back(self):
-        AGC.runAction(f"hand turn {self.dir}")
+        # AGC.runAction(f"hand turn {self.dir}")
+        AGC.runAction(f"hand back {self.dir}")
         print(f"Called react_back: side={self.dir}")
 
     def react_fist(self):
