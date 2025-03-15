@@ -40,6 +40,8 @@ class Robot():
             data = data.strip('"')
             # save the gesture if it is larger than 0
             if(len(data) > 0):
+                if data == "die":
+                    break
                 self.latest_gesture = data
                 print(f"New Gesture: {self.latest_gesture}")
             # close the connection

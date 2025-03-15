@@ -3,7 +3,7 @@ import numpy as np
 from classify_hand import HandClassifier
 import json
 
-PERSISTENCE = 0.5
+PERSISTENCE = 0.2
 
 if __name__ == "__main__":
     print("first print")
@@ -50,5 +50,13 @@ if __name__ == "__main__":
         if key == ord('q'):  # Press 'q' to quit
             break
 
+    for ip in ips:
+        try:
+            clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            clientsocket.connect((ips, 8089))
+            clientsocket.send("die".encode())
+            clientsocket.close()
+        except OSError as e:
+            print(f"Failed to send reach robot: {e}")
     cap.release()
     cv2.destroyAllWindows()
