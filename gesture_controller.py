@@ -3,7 +3,21 @@ import numpy as np
 from classify_hand import HandClassifier
 import json
 
-PERSISTENCE = 0.2
+
+class DefaultDict(dict):
+
+    def __init__(self, default = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.default = default
+    
+    def __getitem__(self, key):
+        try:
+            super().__getitem__(key)
+        except KeyError:
+            return self.default
+
+PERSISTENCE =  DefaultDict(0.2)
+PERSISTENCE["gun"] == 1
 
 if __name__ == "__main__":
     print("first print")
@@ -24,7 +38,7 @@ if __name__ == "__main__":
             if (label == "None" or dists[i] < 10) and label == old_label[i]:
                 if not start[i]:
                     start[i] = time.time()
-                elif time.time() - start[i] > PERSISTENCE:
+                elif time.time() - start[i] > PERSISTENCE[label]:
                     # we've held the same gesture on the same hand for PERSISTENCE seconds
                     # only send a consecutive label once
                     if label != last_sent[i]:

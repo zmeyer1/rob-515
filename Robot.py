@@ -45,6 +45,7 @@ class Robot():
             # close the connection
             connection.close()
             if data == "die":
+                print(f"Alas, I die")
                 break
 
 
@@ -61,6 +62,8 @@ class Robot():
             else:
                 self.execute_action(self.latest_gesture)
             time.sleep(0.01)
+            if self.latest_gesture == 'gun':
+                break
 
     def execute_action(self, gesture):
         # Call specific action to run
@@ -89,7 +92,7 @@ class Robot():
 
     def react_back(self):
         # AGC.runAction(f"hand turn {self.dir}")
-        print(f"hand front {self.dir}")
+        print(f"hand back {self.dir}")
         AGC.runAction(f"hand back {self.dir}")
         print(f"Called react_back: side={self.dir}")
 
@@ -99,7 +102,6 @@ class Robot():
 
     def react_gun(self):
         AGC.runAction("dead")
-        exit()
         print(f"Called react_fist: side={self.dir}")
 
 if(__name__ == "__main__"):
