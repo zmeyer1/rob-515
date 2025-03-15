@@ -70,8 +70,14 @@ class Robot():
             self.react_fist()
         elif(gesture == "gun"):
             self.react_gun()
+        elif(gesture == "None"):
+            self.react_straight()
         else:
             print(f"Unrecognized gesture! {gesture}")
+
+    def react_straight(self):
+        AGC.runAction("hand up")
+        print(f"Called None")
 
     def react_front(self):
         AGC.runAction("hand turn "+ self.dir)
@@ -87,6 +93,7 @@ class Robot():
 
     def react_gun(self):
         AGC.runAction("dead")
+        exit()
         print(f"Called react_fist: side={self.dir}")
 
 if(__name__ == "__main__"):

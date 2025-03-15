@@ -92,10 +92,7 @@ class HandClassifier:
             label, dists = self.get_label(embedding)
             labels[hand_index[handedness]] = label
             mean_distances[hand_index[handedness]] = np.mean(dists)
-        
-        # handedness = hands_found.handedness[0][0].category_name.lower()
-        # embedding = self.pca.transform(self.scaler.transform(angle_vec.reshape(1, -1)))
-        # label, dists = self.get_label(embedding)
+
         if display:
             detect_hand.draw_landmarks_on_image(im, hands_found)
             
