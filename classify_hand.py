@@ -52,7 +52,7 @@ class HandClassifier:
         explained_variance = self.gen_initial_embeddings()
         print(f"The explained variance is: {explained_variance}, SUM: {sum(explained_variance)}")
 
-    def gen_initial_embeddings(self, n_components = 3):
+    def gen_initial_embeddings(self, n_components = 7, display=False):
         # Performs PCA on the angle vectors
 
         # Standardize the data (important for PCA)
@@ -67,6 +67,25 @@ class HandClassifier:
 
         # Transform the data to the new principal components
         self.embeddings = self.pca.transform(scaled_data)
+
+        if display:
+            fig = plt.figure()
+            ax = fig.add_subplot(projection='3d')
+
+            data = {label: [] for label in self.labels}
+
+            for i,label in enumerate(self.labels):
+                data[label].append(self.embeddings[i])
+
+            for arr in data.values():
+                arr = np.array(arr)
+                print(arr.shape)
+                print(arr[:,0].shape)
+                ax.scatter(arr[:,0], arr[:,1], arr[:,2])
+
+
+            plt.show()
+
 
         # Explained variance ratio (how much variance each component explains)
         explained_variance = self.pca.explained_variance_ratio_
